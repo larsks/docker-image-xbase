@@ -1,0 +1,16 @@
+#!/bin/sh
+
+MY_USER=$(id -un)
+MY_UID=$(id -u)
+MY_GID=$(id -g)
+
+docker run -it --rm \
+	-e DISPLAY=$DISPLAY \
+	-e TARGET_USER=$MY_USER \
+	-e TARGET_UID=$MY_UID \
+	-e TARGET_GID=$MY_GID \
+	-e WORKDIR=$PWD \
+	-v $XAUTHORITY:/home/$MY_USER/.Xauthority \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v $PWD:$PWD \
+	"$@"
